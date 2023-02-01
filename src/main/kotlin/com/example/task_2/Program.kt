@@ -3,7 +3,6 @@ package com.example.task_2
 import javafx.application.Application
 import javafx.event.EventHandler
 import javafx.geometry.Insets
-import javafx.scene.Group
 import javafx.scene.Scene
 import javafx.scene.control.Button
 import javafx.scene.layout.AnchorPane
@@ -13,7 +12,6 @@ import javafx.scene.layout.VBox
 import javafx.stage.Stage
 import com.google.gson.Gson
 import javafx.stage.FileChooser
-import org.opencv.core.Core
 import java.io.File
 import java.io.IOException
 
@@ -113,8 +111,6 @@ class MainScreen{
             val listNodes = MutableList(nodes.size) { nodes[it].toData() }
             val links = root.children.filterIsInstance<NodeLink>()
             val listLinks = MutableList(links.size) { links[it].toData() }
-
-            println(gson.toJson(Saved(listNodes, listLinks)))
 
             val fileChooser = FileChooser()
             fileChooser.title = "Save Nodes"
