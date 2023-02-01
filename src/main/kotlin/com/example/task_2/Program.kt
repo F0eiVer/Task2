@@ -1,19 +1,21 @@
 package com.example.task_2
 
+import com.google.gson.Gson
 import javafx.application.Application
 import javafx.event.EventHandler
 import javafx.geometry.Insets
 import javafx.scene.Scene
 import javafx.scene.control.Button
+import javafx.scene.input.*
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.Pane
 import javafx.scene.layout.VBox
-import javafx.stage.Stage
-import com.google.gson.Gson
 import javafx.stage.FileChooser
+import javafx.stage.Stage
 import java.io.File
 import java.io.IOException
+
 
 fun createNode(buttonType: ButtonsAndNodesTypes): DragNode {
     return when (buttonType) {
@@ -67,6 +69,8 @@ class MainScreen{
             addButton(listOfNodes, root, i)
         }
 
+
+
         root.style = "-fx-background-color: grey;"
 
         listOfNodes.spacing = 5.0
@@ -89,6 +93,25 @@ class MainScreen{
         end.layoutX = scene.width * 0.9
         end.layoutY = scene.height * 0.65
         root.children.add(end)
+
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, object : EventHandler<KeyEvent> {
+            val keyComb: KeyCombination = KeyCodeCombination(
+                KeyCode.C,
+                KeyCombination.CONTROL_DOWN
+            )
+
+            override fun handle(ke: KeyEvent) {
+                if (keyComb.match(ke)) {
+                    println("hooo")
+                    val clipboard: Clipboard = Clipboard.getSystemClipboard()
+                    val content = ClipboardContent()
+                    content.putImage(end.imageView!!.image);
+                    //content.putFiles(java.util.Collections.singletonList(File(end.imageView!!.image.url)));
+                    clipboard.setContent(content);
+                }
+            }
+        })
+
 
         var saveLoadButtons = saveLoadButtons(150.0, 560.0)
         saveLoadButtons.spacing = 5.0

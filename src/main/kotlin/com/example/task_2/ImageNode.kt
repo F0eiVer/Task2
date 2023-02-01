@@ -3,9 +3,12 @@ package com.example.task_2
 import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.scene.control.Button
+import javafx.scene.input.*
 import javafx.stage.FileChooser
 import org.opencv.core.Mat
 import org.opencv.imgcodecs.Imgcodecs
+import java.io.File
+
 
 class ImageNode : HasImageNode() {
     override val nodeType: NodeTypes = NodeTypes.IMAGE
@@ -27,7 +30,26 @@ class ImageNode : HasImageNode() {
         outputLink?.kickAction()
     }
 
+    fun copyEvent(){
+
+        copyKey = EventHandler {
+            println("hoo")
+            if(it.isControlDown && it.code == KeyCode.C){
+                val clipboard: Clipboard = Clipboard.getSystemClipboard()
+                val content = ClipboardContent()
+                content.putImage(imageView!!.image);
+                content.putFiles(java.util.Collections.singletonList(File(path)));
+                clipboard.setContent(content);
+            }
+            it.consume()
+        }
+        println("hiiii")
+    }
+
     override fun LocalInit() {
+
+        copyEvent()
+
         openButton!!.onAction = EventHandler {
             val fileChooser = FileChooser()
             fileChooser.title = "Add image"
